@@ -100,6 +100,10 @@ yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
 legend({'Prin angles between X1 and X2','TME lower bound'})
+xticklabels(1:5)
+yticklabels(0:15:90)
+xlabel('Dimension')
+ylabel('Principle angle')
 
 % pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,1);
@@ -113,7 +117,8 @@ for i=1:length(temp)
     if pval==0
         pval=1/length(tempb(:,i));
     end
-    title(['pvalue ' num2str(pval)]);
+    title(['pvalue ' num2str(pval) '    Dimension ' num2str(i)]);
+    legend('Null')
 end
 
 
@@ -139,6 +144,10 @@ yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
 legend({'Prin angles between X1 and X3','TME lower bound'})
+xticklabels(1:5)
+yticklabels(0:15:90)
+xlabel('Dimension')
+ylabel('Principle angle')
 
 % pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,2);
@@ -152,7 +161,8 @@ for i=1:length(temp)
     if pval==0
         pval=1/length(tempb(:,i));
     end
-    title(['pvalue ' num2str(pval)]);
+    title(['pvalue ' num2str(pval) '    Dimension ' num2str(i)]);
+    legend('Null')
 end
 
 
@@ -252,6 +262,9 @@ for i=1:length(neural_vaf)
         pval=1/length(neural_vaf_boot_overall(:,i));
     end
     title(['pvalue of ' num2str(pval)])
+    xlabel('Neural VAF ratio')
+    ylabel('Count')
+    legend('Null')
 end
 
 
@@ -293,7 +306,7 @@ for i=1:size(dataTensor,3)
         shared_var_overall = [shared_var_overall; mean(shared_var)];
     end
 end
-
+disp('')
 disp('Shared variance between X1 & X2, X1 & X3, X2 & X3')
 disp(shared_var_overall')
 

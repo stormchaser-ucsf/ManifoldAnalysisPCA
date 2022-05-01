@@ -4,7 +4,7 @@ clc
 close all
 
 % navigate to the folder where the code is
-cd('C:\Users\Nikhlesh\Documents\GitHub\ManifoldAnalyses')
+cd('C:\Users\Nikhlesh\Documents\GitHub\ManifoldAnalysisPCA')
 addpath(genpath(pwd))
 
 
@@ -86,10 +86,10 @@ plot(prin_angles(:,1),'k','LineWidth',1)
 tempb = prin_angles_boot(:,1,:);
 tempb=tempb(:,:);
 tempb=sort(tempb');
-%l1 = round(0.025*size(tempb,1)); %2.5th percentile
-%l2 = round(0.975*size(tempb,1)); % 97.5th percentile
-plot(tempb(1,:),'--b')
-plot(tempb(end,:),'--r')
+l1 = round(0.025*size(tempb,1)); %2.5th percentile
+l2 = round(0.975*size(tempb,1)); % 97.5th percentile
+%plot(tempb(1,:),'--b')
+plot(tempb(l1,:),'--r')
 axis tight
 ylim([0 90])
 xlim([0.5 size(tempb,2)])
@@ -99,9 +99,13 @@ xticklabels ''
 yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
-legend({'Prin angles between X1 and X2','Low null','High null'})
+legend({'Prin angles between X1 and X2','TME lower bound'})
+xticklabels(1:5)
+yticklabels(0:15:90)
+xlabel('Dimension')
+ylabel('Principle angle')
 
-% pvalues per principle angle, testing if smaller than chance
+% pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,1);
 for i=1:length(temp)
     figure;hist(tempb(:,i));
@@ -113,7 +117,8 @@ for i=1:length(temp)
     if pval==0
         pval=1/length(tempb(:,i));
     end
-    title(['pvalue ' num2str(pval)]);
+    title(['pvalue ' num2str(pval) ' Dimension ' num2str(i)]);
+    legend('Null')
 end
 
 
@@ -125,10 +130,10 @@ plot(prin_angles(:,2),'k','LineWidth',1)
 tempb = prin_angles_boot(:,2,:);
 tempb=tempb(:,:);
 tempb=sort(tempb');
-%l1 = round(0.025*size(tempb,1)); %2.5th percentile
-%l2 = round(0.975*size(tempb,1)); % 97.5th percentile
-plot(tempb(1,:),'--b')
-plot(tempb(end,:),'--r')
+l1 = round(0.025*size(tempb,1)); %2.5th percentile
+l2 = round(0.975*size(tempb,1)); % 97.5th percentile
+%plot(tempb(1,:),'--b')
+plot(tempb(l1,:),'--r')
 axis tight
 ylim([0 90])
 xlim([0.5 size(tempb,2)])
@@ -138,9 +143,13 @@ xticklabels ''
 yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
-legend({'Prin angles between X1 and X3','Low null','High null'})
+legend({'Prin angles between X1 and X3','TME lower bound'})
+xticklabels(1:5)
+yticklabels(0:15:90)
+xlabel('Dimension')
+ylabel('Principle angle')
 
-% pvalues per principle angle, testing if smaller than chance
+% pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,2);
 for i=1:length(temp)
     figure;hist(tempb(:,i));
@@ -152,7 +161,8 @@ for i=1:length(temp)
     if pval==0
         pval=1/length(tempb(:,i));
     end
-    title(['pvalue ' num2str(pval)]);
+    title(['pvalue ' num2str(pval) ' Dimension ' num2str(i)]);
+    legend('Null')
 end
 
 
@@ -240,7 +250,7 @@ end
 
 
 % plotting the statistics with p-values, in following order:
-% X1 vs X2 -> VAF after cross projection greater than chance
+% X1 vs X2 -> VAF after cross projection GREATER than chance
 % X1 vs X3 -> not greater
 % X2 vs X3 -> not greater
 for i=1:length(neural_vaf)
@@ -291,43 +301,9 @@ for i=1:size(dataTensor,3)
         shared_var = [shared_var num/den];
         
         shared_var_overall = [shared_var_overall; mean(shared_var)];
-        
-        
-        % shared variance with random manifolds
-        for ii=1:1000
-            
-            % projection 1
-            [Q] =  randn(sic1(:,1:dim);
-            [Qm] = c2(:,1:dim);
-            Qm = randn(size(Qm));
-            num = trace(Q*Q' * Qm*Qm' * Q*Q');
-            den = trace(Qm*Qm');
-            shared_var_boot = [shared_var_boot;num/den];
-            
-            
-            % projection 2
-            [Q]= c2(:,1:dim2);
-            [Qm]= c1(:,1:dim1);
-            Qm = randn(size(Qm));
-            num = trace(Q*Q' * Qm*Qm' * Q*Q');
-            den = trace(Qm*Qm');
-            shared_var_boot = [shared_var_boot;num/den];
-        end
     end
 end
 
-
-
-
-
-% boot
-for ii=1:40
-    % projection 2
-    [Q]= c2(:,1:dim2);
-    [Qm]= c1(:,1:dim1);
-    Qm = randn(size(Qm));
-    num = trace(Q*Q' * Qm*Qm' * Q*Q');
-    den = trace(Qm*Qm');
-    shared_var_boot = [shared_var_boot;num/den];
-end
+disp('Shared variance between X1 & X2, X1 & X3, X2 & X3')
+disp(shared_var_overall')
 
