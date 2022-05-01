@@ -409,27 +409,27 @@ A(:,3) = randn(1)*A(:,4) + randn(1)*B(:,1) + randn(1)*B(:,2) + A(:,3);
 
 % plot the 1st uncovered relationship
 figure;
-% plot the projected activity on each dataset's submanifolds; these are
+% plot the projected activity on each dataset's CCA manifolds; these are
 % maximally correlated
 subplot(1,3,1)
 plot(Za(:,1),Zb(:,1),'.')
 title(['CCA correlation of  ' num2str(S(1))])
-xlabel('Proj. on Submanifold of A')
-ylabel('Proj. on Submanifold of B')
+xlabel('Proj. on CCA manifold of A')
+ylabel('Proj. on CCA manifold of B')
 
-% plot A's submanifold...it is a vector in channel space
+% plot A's CCA manifold...it is a vector in channel space
 subplot(1,3,2)
 stem(Wa(:,1),'LineWidth',1)
 xlabel('Channels')
 ylabel('Weight')
-title('Submanifold of A')
+title('CCA manifold of A')
 xticks(1:size(A,2))
 xlim([0.5 size(A,2)+0.5])
 
-% plot B's submanifold...it is a vector in channel space
+% plot B's CCA manifold...it is a vector in channel space
 subplot(1,3,3)
 stem(Wb(:,1),'LineWidth',1)
-title('Submanifold of B')
+title('CCA manifold of B')
 ylabel('Weight')
 xlabel('Channels')
 xticks(1:size(B,2))
