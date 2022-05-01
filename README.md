@@ -1,8 +1,7 @@
 # ManifoldAnalysisPCA
  
- Compartmentalized dynamics within a common multi-area mesoscale manifold represent a repertoire of human hand movements
- Nikhilesh Naraj, 2022
- 
+ (C) Nikhilesh Naraj, 2022
+
  
  bibtex:
 @article{natraj2022compartmentalized,
