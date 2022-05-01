@@ -11,7 +11,7 @@ addpath(genpath(pwd))
 %% ANALYSES 1: PRINCIPLE ANGLES BETWEEN NEURAL MANIFOLDS
 % comparing intrinsic manifold between conditions
 
-%%%% simulating 50D gaussian data with 1000 time-points:
+%%%% simulating 50 channels and 1000 time-points from gaussian:
 C = toeplitz([50:-1:1]); % arbritrary covariance structure
 Chalf = chol(C); % cholesky sq. root decomposition
 X1 = zscore(randn(1000,50)); % mean-centered and scaled gaussian
