@@ -132,7 +132,9 @@ yticklabels(0:15:90)
 xlabel('Dimension')
 ylabel('Principle angle')
 
-% pvalues per principle angle, testing if SMALLER than chance
+% pvalues per principle angle, testing  if SMALLER than chance
+% small pvalues -> reject the null hypothesis of no difference
+% interpretation pvalue -> probability of observing a result as extreme given the null hypothesis 
 temp = prin_angles(:,1);
 for i=1:length(temp)
     figure;hist(tempb(:,i));
