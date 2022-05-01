@@ -424,7 +424,7 @@ title('Submanifold of A')
 xticks(1:size(A,2))
 xlim([0.5 size(A,2)+0.5])
 
-% plot B's submanifold...it is a vector in channel space
+% plot bA's submanifold...it is a vector in channel space
 subplot(1,3,3)
 stem(Wb(:,1),'LineWidth',1)
 title('Submanifold of B')
