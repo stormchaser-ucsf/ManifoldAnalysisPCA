@@ -4,7 +4,7 @@ clc
 close all
 
 % navigate to the folder where the code is
-cd('C:\Users\Nikhlesh\Documents\GitHub\ManifoldAnalyses')
+cd('C:\Users\Nikhlesh\Documents\GitHub\ManifoldAnalysisPCA')
 addpath(genpath(pwd))
 
 
@@ -86,10 +86,10 @@ plot(prin_angles(:,1),'k','LineWidth',1)
 tempb = prin_angles_boot(:,1,:);
 tempb=tempb(:,:);
 tempb=sort(tempb');
-%l1 = round(0.025*size(tempb,1)); %2.5th percentile
-%l2 = round(0.975*size(tempb,1)); % 97.5th percentile
-plot(tempb(1,:),'--b')
-plot(tempb(end,:),'--r')
+l1 = round(0.025*size(tempb,1)); %2.5th percentile
+l2 = round(0.975*size(tempb,1)); % 97.5th percentile
+%plot(tempb(1,:),'--b')
+plot(tempb(l1,:),'--r')
 axis tight
 ylim([0 90])
 xlim([0.5 size(tempb,2)])
@@ -99,9 +99,9 @@ xticklabels ''
 yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
-legend({'Prin angles between X1 and X2','Low null','High null'})
+legend({'Prin angles between X1 and X2','TME lower bound'})
 
-% pvalues per principle angle, testing if smaller than chance
+% pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,1);
 for i=1:length(temp)
     figure;hist(tempb(:,i));
@@ -125,10 +125,10 @@ plot(prin_angles(:,2),'k','LineWidth',1)
 tempb = prin_angles_boot(:,2,:);
 tempb=tempb(:,:);
 tempb=sort(tempb');
-%l1 = round(0.025*size(tempb,1)); %2.5th percentile
-%l2 = round(0.975*size(tempb,1)); % 97.5th percentile
-plot(tempb(1,:),'--b')
-plot(tempb(end,:),'--r')
+l1 = round(0.025*size(tempb,1)); %2.5th percentile
+l2 = round(0.975*size(tempb,1)); % 97.5th percentile
+%plot(tempb(1,:),'--b')
+plot(tempb(l1,:),'--r')
 axis tight
 ylim([0 90])
 xlim([0.5 size(tempb,2)])
@@ -138,9 +138,9 @@ xticklabels ''
 yticklabels ''
 yticks([0:15:90])
 xticks([1:5])
-legend({'Prin angles between X1 and X3','Low null','High null'})
+legend({'Prin angles between X1 and X3','TME lower bound'})
 
-% pvalues per principle angle, testing if smaller than chance
+% pvalues per principle angle, testing if SMALLER than chance
 temp = prin_angles(:,2);
 for i=1:length(temp)
     figure;hist(tempb(:,i));
@@ -240,7 +240,7 @@ end
 
 
 % plotting the statistics with p-values, in following order:
-% X1 vs X2 -> VAF after cross projection greater than chance
+% X1 vs X2 -> VAF after cross projection GREATER than chance
 % X1 vs X3 -> not greater
 % X2 vs X3 -> not greater
 for i=1:length(neural_vaf)
