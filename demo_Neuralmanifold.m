@@ -95,7 +95,7 @@ dataTensor(:,:,1) = X1;
 dataTensor(:,:,2) = X2;
 dataTensor(:,:,3) = X3;
 dim=6; % dim of manifold
-prin_angles = compute_prin_angles_manifold(dataTensor,dim);
+prin_angles = compute_prin_angles_manifold(dataTensor,dim); %column wise, X1 vs X2, X1 vs X3, X2 vs X3
 
 % generate max. entroy statistics of the entire dataset without neural covariance
 maxEntropy = run_tme_manifold(dataTensor,'surrogate-TC');
