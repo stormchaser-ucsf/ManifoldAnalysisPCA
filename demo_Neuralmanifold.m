@@ -56,14 +56,18 @@ subplot(1,3,1)
 stem(cumsum(l1)./sum(l1))
 title('VAF X1')
 axis tight
+xlabel('Dimension')
+ylabel('VAF')
 subplot(1,3,2)
 stem(cumsum(l2)./sum(l2))
 title('VAF X2')
 axis tight
+xlabel('Dimension')
 subplot(1,3,3)
 stem(cumsum(l3)./sum(l3))
 title('VAF X3')
 axis tight
+xlabel('Dimension')
 
 % look at first PC for each dataset
 figure;subplot(1,3,1)
