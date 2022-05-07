@@ -19,7 +19,7 @@ X1 = X1*Chalf;
 
 % simulate another condition with exactly or noisily similar covariance structure
 %X2 = zscore(randn(1000,50))*Chalf; % exactly same cov 
-noise_level=0.75; % play around with this...at what point does system fail?
+noise_level=1.00; % play around with this...at what point does system fail?
 X2 = zscore(randn(1000,50))*(Chalf+triu(noise_level*randn(size(Chalf)))); % noisier version
 
 % simulate another conditon wit no covariance structure but same variances
