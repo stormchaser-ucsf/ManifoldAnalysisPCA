@@ -4,7 +4,7 @@ clc
 close all
 
 % navigate to the folder where the code is
-cd('C:\Users\Nikhlesh\Documents\GitHub\ManifoldAnalysisPCA')
+cd('C:\Users\nikic\Documents\GitHub\ManifoldAnalysisPCA')
 addpath(genpath(pwd))
 
 
