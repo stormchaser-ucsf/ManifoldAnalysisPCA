@@ -4,7 +4,7 @@ clc
 close all
 
 % navigate to the folder where the code is
-cd('C:\Users\nikic\Documents\GitHub\ManifoldAnalysisPCA')
+cd('C:\Users\nikic\OneDrive\Documents\GitHub')
 addpath(genpath(pwd))
 
 
@@ -94,7 +94,7 @@ title('X3-PC1')
 dataTensor(:,:,1) = X1;
 dataTensor(:,:,2) = X2;
 dataTensor(:,:,3) = X3;
-dim=6; % dim of manifold
+dim=10; % dim of manifold
 prin_angles = compute_prin_angles_manifold(dataTensor,dim); %column wise, X1 vs X2, X1 vs X3, X2 vs X3
 
 % generate max. entroy statistics of the entire dataset without neural covariance
@@ -102,7 +102,7 @@ maxEntropy = run_tme_manifold(dataTensor,'surrogate-TC');
 
 % sample repeatedly and generate surrogate distribution
 prin_angles_boot=[];
-iter=2000;
+iter=1000;
 for i=1:iter     
     disp([num2str(i/iter*100) '%'])
     surrTensor = sampleTME(maxEntropy);
@@ -247,7 +247,7 @@ end
 %% ANALYSES 2: VAF WHEN CROSS PROJECTING DATA FROM ONE CONDN TO MANIFOLD OF ANOTHER
 % sticking with the same dummy variables X1, X2, X3 created in prev. cell
 
-dim=6; % still using a 6 dim manifold
+dim=10; % still using a 6 dim manifold
 neural_vaf=[];
 neural_vaf_boot_overall=[];
 for i=1:size(dataTensor,3)
@@ -255,7 +255,7 @@ for i=1:size(dataTensor,3)
     Xa = squeeze(dataTensor(:,:,i));
     
     % compute manifold via PCA and VAF for first 'dim' modes
-    [c1,s1,l1] = pca(Xa,'Centered','off');
+    [c1,s1,l1] = pca(Xa,'Centered','on');
     l1 =  cumsum(l1)/sum(l1);
     vaf_xa = l1(dim);
     
@@ -265,7 +265,7 @@ for i=1:size(dataTensor,3)
         Xb = squeeze(dataTensor(:,:,j));
         
         % compute manifold via PCA and VAF for first 'dim' modes
-        [c2,s2,l2] = pca(Xb,'Centered','off');
+        [c2,s2,l2] = pca(Xb,'Centered','on');
         l2 =  cumsum(l2)/sum(l2);
         vaf_xb = l2(dim);
         
@@ -297,7 +297,7 @@ for i=1:size(dataTensor,3)
         
         % projecting onto random manifolds and get distrib. of max. possible VAF
         neural_vaf_boot=[];
-        for loop=1:1000
+        for loop=1:50
             vaf_ratio_boot=[];
             for iter=1:20
                 
@@ -353,7 +353,7 @@ disp(neural_vaf')
 %% ANALYSIS 3 -> SHARED VARIANCE BETWEEN ANY TWO MANIFOLDS
 % sticking with the same dummy variables X1, X2, X3 created in prev. cell
 
-dim=6;
+dim=10;
 shared_var_overall=[];
 for i=1:size(dataTensor,3)
     
