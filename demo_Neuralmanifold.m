@@ -8,6 +8,35 @@ cd('C:\Users\nikic\Documents\GitHub\ManifoldAnalysisPCA')
 addpath(genpath(pwd))
 
 
+%% seeign if norm changes shape of gaussian
+
+x= randn(1000,1);
+y= 2*x+randn(size(x));
+x = [x y];
+figure;
+plot(x(:,1),x(:,2),'.','MarkerSize',15)
+
+x1=[];
+for i=1:size(x,1)
+    x1(i,:) = x(i,:)./norm(x(i,:));
+end
+
+figure;
+plot(x1(:,1),x1(:,2),'.','MarkerSize',15)
+
+x1=x;
+x1 = x1./norm(x1(:));
+figure;
+plot(x1(:,1),x1(:,2),'.','MarkerSize',15)
+
+
+x1=x;
+x1 = (x1 - min(x1(:)))/(max(x1(:)) - min(x1(:)));
+figure;
+plot(x1(:,1),x1(:,2),'.','MarkerSize',15)
+
+
+
 %% ANALYSES 1: PRINCIPLE ANGLES BETWEEN NEURAL MANIFOLDS
 % comparing intrinsic manifold between conditions
 
