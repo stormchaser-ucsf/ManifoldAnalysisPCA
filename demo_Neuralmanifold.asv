@@ -438,8 +438,7 @@ disp(Qa'*Qa) % the identity matrix
 disp(A'*A) % not the identity matrix
 
 % manifold B which is a noisy version of A
-scaling=1.5;
-B = A + scaling*randn(size(A)); % play around with scaling to see when test fails
+B = A + rand(size(A));
 [Qb,~] = qr(B,0); % gets an orthonormal basis for column space of B
 
 % shared variance: A relative to B
@@ -461,37 +460,55 @@ shared_var = mean(shared_var);
 
 % null distribution test:
 shared_var_boot=[];
-for iter=1:5000 % shuffle the entires of A/B, assume A/B to be another random manifold etc.
-    shared_var_iter=[];    
-    % shuffle A
-    A_null = reshape(A(randperm(numel(A))),size(A));
-    [Qa,~] = qr(A_null,0);
-    [Qb,~] = qr(B,0);
-    num = trace(Qa*Qa' * B*B' * Qa*Qa');
-    den = trace(B*B');
-    shared_var_iter = [shared_var_iter num/den];
-    num = trace(Qb*Qb' * A_null*A_null' * Qb*Qb');
-    den = trace(A_null*A_null');
-    shared_var_iter = [shared_var_iter num/den];
+for iter=1:1000 % shuffle the entires of A, assume A to be another random manifold etc.
+    Anull = A(randperm(size(A)))
 
-    % shuffle B
-    B_null = reshape(B(randperm(numel(B))),size(B));
-    [Qb,~] = qr(B_null,0);
-    [Qa,~] = qr(A,0);
-    num = trace(Qa*Qa' * B_null*B_null' * Qa*Qa');
-    den = trace(B_null*B_null');
-    shared_var_iter = [shared_var_iter num/den];
-    num = trace(Qb*Qb' * A*A' * Qb*Qb');
-    den = trace(A*A');
-    shared_var_iter = [shared_var_iter num/den];
 
-    % mean
-    shared_var_boot(iter) = mean(shared_var_iter);
+
 end
 
-figure;hist(shared_var_boot)
-vline(shared_var)
 
+
+
+dim=10;
+shared_var_overall=[];
+for i=1:size(dataTensor,3)
+    
+    Xa = squeeze(dataTensor(:,:,i));
+    % compute manifold via PCA
+    [c1,s1,l1] = pca(Xa,'Centered','off');
+    
+    
+    for j=i+1:size(dataTensor,3)
+        shared_var=[];
+        
+        Xb = squeeze(dataTensor(:,:,j));
+        % compute manifold via PCA
+        [c2,s2,l2] = pca(Xb,'Centered','off');
+        
+        
+        % getting shared variance
+        % projection 1
+        [Q]= c1(:,1:dim);
+        [Qm]= c2(:,1:dim);
+        num = trace(Q*Q' * Qm*Qm' * Q*Q');
+        den = trace(Qm*Qm');
+        shared_var = [shared_var num/den];
+        
+        % projection 2
+        [Q]= c2(:,1:dim);
+        [Qm]= c1(:,1:dim);
+        num = trace(Q*Q' * Qm*Qm' * Q*Q');
+        den = trace(Qm*Qm');
+        shared_var = [shared_var num/den];
+        
+        shared_var_overall = [shared_var_overall; mean(shared_var)];
+    end
+end
+disp('')
+disp('')
+disp('Shared variance between X1 & X2, X1 & X3, X2 & X3')
+disp(shared_var_overall')
 
 %% ANALYSIS 4 -> CANONICAL CORRELATION ANALYSIS EXAMPLE (CCA)
 
