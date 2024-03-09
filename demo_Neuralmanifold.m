@@ -123,7 +123,7 @@ title('X3-PC1')
 dataTensor(:,:,1) = X1;
 dataTensor(:,:,2) = X2;
 dataTensor(:,:,3) = X3;
-dim=10; % dim of manifold
+dim=100; % dim of manifold
 prin_angles = compute_prin_angles_manifold(dataTensor,dim); %column wise, X1 vs X2, X1 vs X3, X2 vs X3
 
 % generate max. entroy statistics of the entire dataset without neural covariance
@@ -276,7 +276,7 @@ end
 %% ANALYSES 2: VAF WHEN CROSS PROJECTING DATA FROM ONE CONDN TO MANIFOLD OF ANOTHER
 % sticking with the same dummy variables X1, X2, X3 created in prev. cell
 
-dim=10; % still using a 6 dim manifold
+dim=100; % still using a 6 dim manifold
 neural_vaf=[];
 neural_vaf_boot_overall=[];
 for i=1:size(dataTensor,3)
